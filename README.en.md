@@ -1,5 +1,7 @@
 # hover-translate
 
+> **A fully offline hover dictionary for Windows** — screen OCR, no cloud, no telemetry
+
 **Hold `Ctrl` and rest the mouse on any English word on screen for ~0.4s** — it pronounces the word aloud, pops up the phonetic spelling and a Traditional Chinese definition, then speaks the meaning in Chinese.
 
 *[繁體中文](README.md)*
@@ -8,7 +10,18 @@
 
 Works over any window: PDFs, video subtitles, text baked into images, game UIs, anything you cannot select. It reads the **screen pixels**, not a text selection.
 
-**Fully offline at runtime.** A local 768k-entry dictionary; the main program's source contains no networking module at all — you can block it in the firewall and nothing changes.
+## How this differs from other screen translators
+
+| | This project | Typical screen translator |
+|---|---|---|
+| **Network** | **Zero connections** at runtime; works with the app firewalled off | Calls a cloud translation API |
+| **Privacy** | What you look up never leaves your machine | Every lookup is sent to a third party |
+| **Chinese** | **Traditional / Taiwan usage**, 104 hand-curated corrections | Usually Simplified or mainland phrasing |
+| **OCR** | Windows built-in engine — **331 KB download** | PaddleOCR and friends: hundreds of MB of models |
+| **Speech** | English + Chinese, both offline (SAPI) | Often no speech at all |
+| **Latency** | 0.03ms lookup | 100–500ms network round trip |
+
+The trade-off is **no context disambiguation** — the dictionary lists every sense rather than picking one for the sentence. Great for looking up words; not a sentence translator.
 
 ---
 
