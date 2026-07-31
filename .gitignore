@@ -1,0 +1,31 @@
+# 字典是產生出來的，不進版控（79 MB，遠超 GitHub 建議上限）
+# 使用者跑 build_dict.py 會自行下載 ECDICT 並建立
+dict.db
+
+# build_dict.py 下載的 ECDICT 原始資料
+ecdict.csv
+lemma.en.txt
+
+# 無主控台啟動時的執行紀錄，含使用者的使用痕跡
+*.log
+
+# 首次執行自動產生，使用者各自調整
+config.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 打包產物
+dist/
+build/
+*.zip
+
+# 編輯器 / 系統
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
