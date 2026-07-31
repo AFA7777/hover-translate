@@ -41,11 +41,22 @@ cd hover-translate
 python install.py
 ```
 
-Or without a terminal: download the ZIP, extract, and double-click **`一鍵安裝.bat`**.
+Or without a terminal: hit the green **Code → Download ZIP**, extract, and double-click **`一鍵安裝.bat`** (the installer).
 
 The installer pulls the dependencies, downloads and builds the offline dictionary (2–3 minutes), and puts a shortcut on your desktop.
 
 > If Python is missing, install it from [python.org](https://www.python.org/downloads/) and **tick "Add Python to PATH"** at the bottom of the installer — that is the usual stumbling block.
+
+### Getting a blue "Windows protected your PC" warning?
+
+Windows tags every file inside a downloaded ZIP as internet-sourced, so running any `.bat` from it triggers SmartScreen. **This happens with any downloaded batch file — it is not specific to this program.**
+
+Two ways around it:
+
+- **Unblock before extracting (recommended, fixes everything at once):** right-click the downloaded ZIP → Properties → tick "Unblock" at the bottom of the General tab → OK → then extract.
+- **Allow at run time:** click "More info" → "Run anyway".
+
+The program is not code-signed (that requires a paid certificate), so the warning is unavoidable. All source is in this repository for inspection.
 
 ---
 
