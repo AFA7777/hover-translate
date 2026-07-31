@@ -15,6 +15,9 @@ install.py           一鍵安裝的實作（裝套件→建字典→放捷徑�
 make_shortcut.py     建立桌面捷徑的實作（win32com，不用 PowerShell）
 一鍵安裝.bat          分享給別人時對方唯一要點的檔案（純 ASCII 薄殼）
 建立桌面捷徑.bat      重建桌面捷徑「即時翻譯」（純 ASCII 薄殼）
+setup.bat / run.bat / make-shortcut.bat
+                     上面三個 bat 的 ASCII 檔名別名，內容完全相同。
+                     改任一個都要同步改對應的別名，否則兩者行為分歧。
 給收到的人.txt        給非技術使用者的安裝與使用說明
 skill/SKILL.md       本檔的可攜版（路徑已抽換），隨分享包一起發
 icon.ico             捷徑圖示

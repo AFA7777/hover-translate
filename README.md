@@ -41,9 +41,17 @@ cd hover-translate
 python install.py
 ```
 
-或者不用命令列：按綠色 **Code → Download ZIP**、解壓縮、雙擊 **`一鍵安裝.bat`**。
+或者不用命令列：按綠色 **Code → Download ZIP**、解壓縮、雙擊 **`一鍵安裝.bat`**（或 ASCII 檔名的 `setup.bat`，兩者完全相同）。
 
 安裝程式會裝套件、下載並建立離線字典（約 2–3 分鐘）、在桌面放一個捷徑。
+
+每個批次檔都有一個 **ASCII 檔名的別名**，內容完全相同 —— 給中文檔名顯示成亂碼或不好輸入的環境用：
+
+| 中文檔名 | ASCII 別名 | 用途 |
+|---|---|---|
+| `一鍵安裝.bat` | `setup.bat` | 安裝 |
+| `啟動.bat` | `run.bat` | 帶主控台啟動（想看訊息或除錯時用） |
+| `建立桌面捷徑.bat` | `make-shortcut.bat` | 重建桌面捷徑 |
 
 > 沒裝 Python 的話請先到 [python.org](https://www.python.org/downloads/) 安裝，**務必勾選最下面的「Add Python to PATH」**，這是最常見的卡關點。
 

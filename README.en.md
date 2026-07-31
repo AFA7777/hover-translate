@@ -41,9 +41,17 @@ cd hover-translate
 python install.py
 ```
 
-Or without a terminal: hit the green **Code → Download ZIP**, extract, and double-click **`一鍵安裝.bat`** (the installer).
+Or without a terminal: hit the green **Code → Download ZIP**, extract, and double-click **`setup.bat`**.
 
 The installer pulls the dependencies, downloads and builds the offline dictionary (2–3 minutes), and puts a shortcut on your desktop.
+
+Every batch file ships under both a Chinese and an ASCII name, with identical contents — use whichever your environment displays properly:
+
+| Chinese name | ASCII alias | Purpose |
+|---|---|---|
+| `一鍵安裝.bat` | `setup.bat` | Install |
+| `啟動.bat` | `run.bat` | Launch with a console window (for messages / debugging) |
+| `建立桌面捷徑.bat` | `make-shortcut.bat` | Rebuild the desktop shortcut |
 
 > If Python is missing, install it from [python.org](https://www.python.org/downloads/) and **tick "Add Python to PATH"** at the bottom of the installer — that is the usual stumbling block.
 
