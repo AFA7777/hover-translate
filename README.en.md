@@ -194,7 +194,7 @@ python selftest.py
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE). Third-party components are listed in [NOTICE](NOTICE).
 
 This program **bundles no dictionary data**. `build_dict.py` downloads it from the upstream repository and builds the database on the user's own machine.
 

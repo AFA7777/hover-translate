@@ -1,0 +1,28 @@
+Third-party components
+======================
+
+This program does NOT bundle or redistribute any dictionary data.
+
+On first run, build_dict.py downloads the source data from its official
+repository and builds a local database on the user's own machine. Nothing in
+this repository contains ECDICT content.
+
+  ECDICT
+  https://github.com/skywind3000/ECDICT
+  Copyright (c) 2025 Linwei (skywind3000)
+  MIT License
+
+Simplified-to-Traditional Chinese conversion is performed at dictionary build
+time only; the converter is not redistributed and is not required at runtime.
+
+  OpenCC / opencc-python-reimplemented
+  https://github.com/BYVoid/OpenCC
+  Apache License 2.0
+
+Runtime dependencies, installed from PyPI by the user:
+
+  winsdk    - Python projection of the Windows Runtime APIs (Windows.Media.Ocr)
+  pywin32   - Python for Windows Extensions (SAPI speech synthesis)
+
+Everything else in this repository is original work covered by the MIT License
+in the LICENSE file.

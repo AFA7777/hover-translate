@@ -19,19 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Third-party components
-
-This program does NOT bundle or redistribute any dictionary data. On first
-run, build_dict.py downloads the following from its official repository and
-builds a local database on the user's own machine:
-
-  ECDICT - https://github.com/skywind3000/ECDICT
-  Copyright (c) 2025 Linwei (skywind3000), MIT License
-
-Simplified-to-Traditional Chinese conversion at build time uses:
-
-  OpenCC (opencc-python-reimplemented) - Apache License 2.0
-  https://github.com/BYVoid/OpenCC

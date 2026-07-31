@@ -219,7 +219,7 @@ python build_dict.py --verify
 
 ## 授權
 
-MIT，見 [LICENSE](LICENSE)。
+MIT，見 [LICENSE](LICENSE)。第三方元件聲明見 [NOTICE](NOTICE)。
 
 本程式**不夾帶任何字典資料** —— `build_dict.py` 在使用者自己的機器上從官方 repo 下載並建置。
 
