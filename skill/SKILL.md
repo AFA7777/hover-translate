@@ -42,6 +42,15 @@ README.md            完整說明與設定表
 **二、執行期零連線是這個專案刻意維持的性質，不要破壞它。**
 `hover_translate.py` 原始碼裡不可以出現 `urllib` / `socket` / `http` / `requests` / `ssl`。`selftest.py` 有兩道測試在守這件事（封鎖 socket 後查詢仍須成功、掃描原始碼確認無網路模組）。使用者是為了資安才從線上翻譯換成離線字典的 —— 若要加回任何連線功能，**必須先明確詢問並說明取捨**。
 
+**三、文件敘述必須與程式行為一致，這是專案被公開審查的重點。**
+2026-08-01 一份第三方資安審查抓到三處文件與實際不符，全部成立：
+
+- `hover_translate.py` 的開頭 docstring 還留著「免費線上翻譯、寫入 SQLite 快取」—— 離線化之後忘了改。**審查者第一個讀的就是這個檔案的開頭**，說明與行為對不上本身就是紅旗。
+- README 寫「原始碼裡 urllib 一律不存在」，但 `build_dict.py` 確實用了 `urllib.request`。正確說法要限定在**主程式**。
+- README 寫「磁碟殘留：無」，但 `debug: true` 會把 OCR 到的單字與該行前 60 字元寫進 `hover_translate.log`（無主控台啟動時）。
+
+改動架構後**務必回頭檢查 docstring 與 README**。selftest 現在有一項會掃主程式開頭是否殘留 `線上翻譯` / `SQLite 快取` / `cache.db` / `googleapis` 等舊詞。
+
 ## 啟動
 
 **使用者有桌面捷徑「即時翻譯」，不需要 Claude 就能自己啟動。** 如果他只是問「怎麼開」，先告訴他雙擊桌面捷徑就好，不用叫他回來找你。
@@ -188,6 +197,30 @@ cd "<專案資料夾>" && python build_dict.py --verify
 | 釋義是簡體或中國用語 | 改 `用語修正.txt`，見上一節 |
 | 座標整體偏移 | DPI。啟動時已宣告 `PER_MONITOR_DPI_AWARE`；使用者改過螢幕縮放就重啟程式 |
 | 全螢幕遊戲抓不到畫面 | 獨佔全螢幕無法 BitBlt，請使用者切視窗化或無邊框視窗 |
+
+## 供應鏈：已鎖定，不要放寬
+
+2026-08-01 依資安審查建議完成三項鎖定，**改動時不要退回寬鬆設定**：
+
+| 項目 | 現況 |
+|---|---|
+| ECDICT 來源 | 鎖定 commit `bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b`（2025-03-28），**不是 master** |
+| 下載完整性 | `build_dict.py` 驗證兩個來源檔的 SHA-256，不符就刪檔並中止 |
+| 套件版本 | `winsdk==1.0.0b10`、`pywin32==312`、`opencc==0.1.7`，`requirements.txt` 與 `install.py` 必須一致 |
+
+要跟進上游更新時（ECDICT 更新頻率極低，2025-03 之後未動）：
+
+```bash
+cd "<專案資料夾>" && python build_dict.py --hash <新的-commit-sha>
+```
+
+它會印出可直接貼回 `build_dict.py` 的 `ECDICT_COMMIT` 與 `SHA256` 常數。改完跑 `selftest.py`，有四項在守這些不變量（鎖 commit、有雜湊驗證、requirements 無 `>=`、docstring 無舊詞）。
+
+## debug 模式有隱私副作用
+
+`debug: true` 會經由 `log()` 印出 OCR 辨識到的單字與該行前 60 字元。**用桌面捷徑（pythonw，無主控台）啟動時，這些內容會落到 `hover_translate.log`。**
+
+所以要使用者開 debug 除錯時，**必須同時提醒**：不要在有成績、個資、密碼、機密文件的畫面上開，除完錯記得關掉並刪除 `hover_translate.log`。README 已有警告方塊。
 
 ## 要改架構時
 
