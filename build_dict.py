@@ -14,6 +14,7 @@
 """
 
 import csv
+import hashlib
 import os
 import sqlite3
 import sys
@@ -27,7 +28,31 @@ CSV_PATH = os.path.join(BASE, "ecdict.csv")
 LEMMA_PATH = os.path.join(BASE, "lemma.en.txt")
 DB_PATH = os.path.join(BASE, "dict.db")
 FIX_PATH = os.path.join(BASE, "用語修正.txt")
-RAW = "https://raw.githubusercontent.com/skywind3000/ECDICT/master/"
+
+# 鎖定到特定 commit 而不是 master，並驗證 SHA-256。
+#
+# 為什麼：從 master 抓等於「每次安裝拿到的東西都可能不一樣」，上游一旦被竄改
+# 或誤推，使用者建出來的字典會不同而無從察覺。鎖定 commit + 雜湊之後，內容
+# 只要有一個位元不同就會被擋下來。
+#
+# 要跟進上游更新時（ECDICT 更新頻率很低，2025-03 之後就沒動過）：
+#   1. 到 https://github.com/skywind3000/ECDICT/commits/master 取得新的 commit
+#   2. 用 python build_dict.py --hash <commit> 印出新的雜湊值
+#   3. 把下面三個常數換掉
+ECDICT_COMMIT = "bc015ed2e24a7abef49fc6dbbb7fe32c1dadaf8b"   # 2025-03-28
+RAW = f"https://raw.githubusercontent.com/skywind3000/ECDICT/{ECDICT_COMMIT}/"
+SHA256 = {
+    "ecdict.csv":   "1a6947e04785db63613a92e14903cdae7954f7e84860b10e68e5c7cbb3f9c3cf",
+    "lemma.en.txt": "e255b097404e3e0052060e2ddf6e15a1414f577071d63d51d2ca0ce9dacee0fc",
+}
+
+
+def sha256_of(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 # OpenCC 的 s2twp 對資訊用語幾乎完美（软件→軟體、内存→記憶體、算法→演算法），
 # 但遇到台灣用不同「構詞」而非不同「字」的術語就無能為力，最典型的是
@@ -160,9 +185,15 @@ DEFAULT_FIXES = """\
 
 
 def download(name, path):
+    """下載並驗證 SHA-256。既有檔案雜湊不符會重抓；重抓仍不符就中止。"""
+    want = SHA256[name]
     if os.path.exists(path) and os.path.getsize(path) > 100000:
-        print(f"  {name} 已存在，跳過下載")
-        return
+        print(f"  {name} 已存在，驗證雜湊…", end="", flush=True)
+        if sha256_of(path) == want:
+            print(" 相符，跳過下載")
+            return
+        print(" 不符，重新下載")
+
     print(f"  下載 {name} …", end="", flush=True)
     t = time.time()
     req = urllib.request.Request(RAW + name, headers={"User-Agent": "Mozilla/5.0"})
@@ -174,7 +205,18 @@ def download(name, path):
                 break
             f.write(b)
             n += len(b)
-    print(f" {n/1048576:.1f} MB / {time.time()-t:.1f}s")
+    print(f" {n/1048576:.1f} MB / {time.time()-t:.1f}s", end="", flush=True)
+
+    got = sha256_of(path)
+    if got != want:
+        os.remove(path)
+        raise SystemExit(
+            f"\n\n  ✗ {name} 的 SHA-256 不符，已刪除下載的檔案。\n"
+            f"      預期 {want}\n"
+            f"      實得 {got}\n\n"
+            "  可能原因：網路中斷、代理伺服器改寫內容，或上游檔案已變動。\n"
+            "  若確認是上游正常更新，請依 build_dict.py 開頭的說明更新 commit 與雜湊值。\n")
+    print("  ✓ 雜湊相符")
 
 
 def load_lemma():
@@ -329,8 +371,28 @@ def verify():
           + (f"，查不到：{miss}" if miss else ""))
 
 
+def print_hashes(commit):
+    """--hash <commit>：印出該 commit 的檔案雜湊，方便更新上面的常數。"""
+    base = f"https://raw.githubusercontent.com/skywind3000/ECDICT/{commit}/"
+    print(f'ECDICT_COMMIT = "{commit}"')
+    print("SHA256 = {")
+    for name in SHA256:
+        req = urllib.request.Request(base + name, headers={"User-Agent": "Mozilla/5.0"})
+        h = hashlib.sha256()
+        with urllib.request.urlopen(req, timeout=300) as f:
+            for chunk in iter(lambda: f.read(1 << 20), b""):
+                h.update(chunk)
+        print(f'    "{name}":{" " * (13 - len(name))}"{h.hexdigest()}",')
+    print("}")
+
+
 if __name__ == "__main__":
-    if "--verify" in sys.argv:
+    if "--hash" in sys.argv:
+        i = sys.argv.index("--hash")
+        if i + 1 >= len(sys.argv):
+            raise SystemExit("用法： python build_dict.py --hash <commit-sha>")
+        print_hashes(sys.argv[i + 1])
+    elif "--verify" in sys.argv:
         verify()
     else:
         build()

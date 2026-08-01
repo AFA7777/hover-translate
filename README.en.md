@@ -31,16 +31,23 @@ A tool that captures your screen deserves scrutiny, so here it is up front:
 
 | | |
 |---|---|
-| Keylogging | **No.** It polls the pressed-state of five keys (Ctrl / Alt / H / Q / Esc). No keystroke content is ever read or stored. |
-| Network access | **No.** Zero networking code at runtime; verifiable with a firewall. |
-| Screen capture | Only while you hold Ctrl and dwell — one 900×90 px grab around the cursor. No recording, nothing written to disk. |
-| Data on disk | **None.** No query history. The dictionary is read-only. |
+| Keylogging | **No.** It polls the *pressed state* of the trigger key (Ctrl by default; Alt or Shift are configurable) plus H / Q / Esc. Keystroke content is never read or stored. |
+| Network access | **Not in the main program.** `hover_translate.py` contains no networking module; verify with a firewall. **`build_dict.py` does** — see below. |
+| Screen capture | Only while you hold the trigger key and dwell — one 900×90 px grab around the cursor. No recording; nothing written to disk by default. |
+| Data on disk | **None** in normal use (no query history, dictionary is read-only). **Except under `debug: true`** — see the warning below. |
 | Admin rights | **Not required.** |
 | Autostart | **No.** No registry keys, no service, no scheduled task. |
 
-The only step that needs the internet is **building the dictionary once** (downloads ECDICT, 65 MB). After that it is permanently offline.
+**To be precise about network access:**
 
-`import urllib` / `socket` / `requests` appear nowhere in the source, and `selftest.py` enforces this with two checks: lookups must still succeed after `socket.socket` is blocked, and a source scan must find no networking imports.
+- **`hover_translate.py` (what you run day to day)** — `urllib` / `socket` / `http` / `requests` / `ssl` appear nowhere in it. `selftest.py` enforces this with two checks: lookups must still succeed after `socket.socket` is blocked, and a source scan must find no networking imports.
+- **`build_dict.py` (runs once, at dictionary build time)** — uses `urllib.request` to fetch ECDICT from GitHub. This is the project's only network access, and the file can be deleted afterwards.
+
+> ### ⚠️ `debug: true` writes on-screen text to disk
+>
+> With debug enabled, the program logs the recognised word and the first 60 characters of its line. When launched from the desktop shortcut (no console), that goes into `hover_translate.log`.
+>
+> **Do not enable `debug` while grades, personal data, passwords or confidential documents are on screen.** Leave it at the default `false`; if you do turn it on, turn it back off and delete `hover_translate.log` afterwards.
 
 ---
 

@@ -8,10 +8,14 @@ hover_translate — 滑鼠指到螢幕上的英文，唸出英文發音，再用
     → BitBlt 擷取游標周圍畫面（含 2x 放大，小字才認得出來）
     → Windows 內建 OCR 取出單字與其座標，挑出游標正下方那個字
     → SAPI 英文語音唸單字（Zira）
-    → 免費線上翻譯 → 繁中，寫入 SQLite 快取
-    → 浮窗顯示（單字/詞性/整句），SAPI 繁中語音唸出翻譯（Hanhan）
+    → 查本機 dict.db（ECDICT 建成的繁體離線字典），套用用語修正.txt
+    → 浮窗顯示（單字/音標/義項/整句），SAPI 繁中語音唸出釋義（Hanhan）
 
 熱鍵：Esc 連按兩下 結束   Ctrl+Alt+H 暫停/恢復   Ctrl+Alt+Q 結束
+
+這支程式執行期不連線，也刻意不 import 任何網路模組。唯一會連網的是
+build_dict.py（只在建字典時跑一次）。若要改動本檔，請維持這個性質 ——
+selftest.py 有兩道測試在守。
 """
 
 import asyncio

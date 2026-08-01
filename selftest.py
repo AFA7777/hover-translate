@@ -141,6 +141,20 @@ netmods = re.findall(r"^\s*(?:import|from)\s+(urllib|socket|http|requests|ssl)\b
                      src, re.M)
 check("主程式原始碼不含任何網路模組", not netmods, f"發現 {netmods}" if netmods else "")
 
+# 文件與程式脫節是資安審查最容易抓到的破綻，用測試守住幾個關鍵敘述
+doc = src[:src.index('"""', src.index('"""') + 3)]
+stale = [w for w in ("線上翻譯", "SQLite 快取", "cache.db", "googleapis") if w in doc]
+check("主程式開頭說明沒有殘留舊架構的敘述", not stale, f"殘留 {stale}" if stale else "")
+
+bsrc = open(os.path.join(H.BASE_DIR, "build_dict.py"), encoding="utf-8").read()
+check("build_dict 鎖定 ECDICT commit（非 master）",
+      "ECDICT_COMMIT" in bsrc and "/master/" not in bsrc)
+check("build_dict 會驗證下載檔案的 SHA-256",
+      "sha256_of" in bsrc and bsrc.count('"1a6947e0') + bsrc.count("SHA256[") >= 2)
+req = open(os.path.join(H.BASE_DIR, "requirements.txt"), encoding="utf-8").read()
+loose = re.findall(r"^([a-z0-9-]+)>=", req, re.M | re.I)
+check("套件版本已鎖定（無 >= 寬鬆版本）", not loose, f"未鎖定 {loose}" if loose else "")
+
 # ---- 5. 語音 ----
 print("\n5) SAPI 語音")
 sp = H.Speaker(H.CFG)

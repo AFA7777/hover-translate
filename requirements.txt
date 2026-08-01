@@ -1,6 +1,11 @@
-# 執行期需要
-winsdk>=1.0.0b10                 # Windows.Media.Ocr — 系統內建 OCR，單字級座標，離線
-pywin32>=305                     # SAPI.SpVoice 語音合成
+# 版本已鎖定。安裝時拿到的就是開發與測試時用的同一份，
+# 上游改版不會在你不知情的情況下換掉底下的東西。
+#
+# 要升級時：改這裡的版本號，跑一次 selftest.py 全綠再提交。
 
-# 只有 build_dict.py 建字典時需要，建完可解除安裝
-opencc-python-reimplemented>=0.1.7   # 簡轉繁（s2twp，台灣用詞）
+# --- 執行期需要 ---
+winsdk==1.0.0b10       # Windows.Media.Ocr — 系統內建 OCR，單字級座標，離線
+pywin32==312           # SAPI.SpVoice 語音合成、WScript.Shell 建捷徑
+
+# --- 只有 build_dict.py 建字典時需要，建完可解除安裝 ---
+opencc-python-reimplemented==0.1.7   # 簡轉繁（s2twp，台灣用詞）

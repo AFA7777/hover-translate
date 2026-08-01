@@ -11,7 +11,9 @@ import sys
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 BASE = os.path.dirname(os.path.abspath(__file__))
-PKGS = ["winsdk", "pywin32", "opencc-python-reimplemented"]
+# 版本鎖定：不寫死的話，每次安裝可能拿到不同版本，出問題難以重現，
+# 上游若被投毒也會直接進到使用者機器。要升級請一併改 requirements.txt。
+PKGS = ["winsdk==1.0.0b10", "pywin32==312", "opencc-python-reimplemented==0.1.7"]
 
 
 def say(*a):
