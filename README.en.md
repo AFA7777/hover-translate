@@ -245,3 +245,7 @@ This program **bundles no dictionary data**. `build_dict.py` downloads it from t
 
 - Dictionary data: [ECDICT](https://github.com/skywind3000/ECDICT) (MIT)
 - Simplified→Traditional conversion: [OpenCC](https://github.com/BYVoid/OpenCC) (Apache 2.0), build-time only
+
+**On the provenance of the dictionary data.** ECDICT is released under the MIT License by its author, and this project relies on that grant. ECDICT is however itself a compilation assembled over many years — per its own README, from community contributions, the open-source cdict dictionary, the English-Chinese portion of the open-source 屌丝字典, and proofreading against BNC/COCA frequency lists.
+
+**Neither this project nor its author can verify the provenance of individual entries in that 768k-row corpus, and no such claim is made.** What is checkable: ECDICT is distributed by its author under MIT; this repository contains no dictionary data; `build_dict.py` fetches it from a pinned upstream commit and verifies its SHA-256 on the user's own machine. If you plan to deploy this where data provenance matters commercially or institutionally, evaluate the [upstream project](https://github.com/skywind3000/ECDICT) on its own terms rather than relying on this note. See [NOTICE](NOTICE).

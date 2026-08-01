@@ -12,6 +12,35 @@ this repository contains ECDICT content.
   Copyright (c) 2025 Linwei (skywind3000)
   MIT License
 
+
+Limits of this attribution
+--------------------------
+
+ECDICT is released under the MIT License by its author, and this project
+relies on that grant. However, ECDICT is itself a compilation assembled over
+many years. Per its own README, the corpus grew from community contributions,
+the open-source cdict-1.0-1.rpm dictionary, the English-Chinese portion of the
+open-source 屌丝字典 (https://github.com/fxsjy/diaosi), and proofreading passes
+against the BNC and COCA frequency lists.
+
+Neither this project nor its author can verify the provenance of individual
+entries within that 768,000-row corpus, and no such claim is made here. What
+can be stated is narrower and checkable:
+
+  * ECDICT is distributed by its author under the MIT License.
+  * This repository contains no ECDICT data. build_dict.py fetches it from a
+    pinned upstream commit and verifies its SHA-256 on the user's own machine.
+  * Consequently this project redistributes no dictionary content, and any
+    question about the upstream corpus should be directed at ECDICT itself:
+    https://github.com/skywind3000/ECDICT
+
+If you intend to deploy this in a commercial or institutional setting where
+data provenance matters, evaluate the upstream project on its own terms rather
+than relying on this notice.
+
+
+---
+
 Simplified-to-Traditional Chinese conversion is performed at dictionary build
 time only; the converter is not redistributed and is not required at runtime.
 

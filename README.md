@@ -269,3 +269,7 @@ MIT，見 [LICENSE](LICENSE)。第三方元件聲明見 [NOTICE](NOTICE)。
 
 - 字典資料：[ECDICT](https://github.com/skywind3000/ECDICT)（MIT）
 - 簡繁轉換：[OpenCC](https://github.com/BYVoid/OpenCC)（Apache 2.0），僅建字典時使用
+
+**關於字典資料的來源。** ECDICT 由其作者以 MIT 授權釋出，本專案據此使用。但 ECDICT 本身是多年累積的彙編成果 —— 依其 README 所述，詞庫來自網友貢獻、開源的 cdict 字典、開源《屌絲字典》的英漢部分，並以 BNC／COCA 語料庫詞頻校對。
+
+**本專案與作者無法逐筆驗證那 76 萬條詞條的來源，也不作此宣稱。** 能確定的只有：ECDICT 由其作者以 MIT 釋出；本 repo 不含任何字典資料，由 `build_dict.py` 在使用者機器上從鎖定的上游 commit 下載並驗證 SHA-256。若你要用在商業或機構場合而在意資料來源，請直接評估[上游專案](https://github.com/skywind3000/ECDICT)，不要只依賴這裡的說明。詳見 [NOTICE](NOTICE)。
