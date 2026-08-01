@@ -212,6 +212,31 @@ python selftest.py
 
 ---
 
+## If you pass this on
+
+When sharing the tool, please include a note like this — licence, limits and risk in one place, so the recipient can judge for themselves:
+
+```
+An open-source utility under the MIT licence. Source:
+https://github.com/AFA7777/hover-translate
+
+Dictionary data comes from ECDICT (MIT, copyright its original author).
+This program bundles no dictionary data; the installer downloads it and
+verifies its SHA-256.
+
+The main program runs fully offline (verify with a firewall). It works by
+reading the screen and running OCR on it, so do NOT use it on screens
+showing passwords, personal data or confidential documents, and leave
+debug mode off.
+
+The project is new and has not had a third-party security audit — try it
+yourself and evaluate before relying on it.
+```
+
+**Please do not describe this tool as "completely safe".** It reads screen content — that is the feature, not a flaw. The honest framing is to state verifiable facts (no network access at runtime, source is public, automated tests enforce both) and let people decide whether that fits their situation.
+
+---
+
 ## License
 
 MIT — see [LICENSE](LICENSE). Third-party components are listed in [NOTICE](NOTICE).
